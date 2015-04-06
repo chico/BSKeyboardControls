@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WPEditorField.h"
 
 /**
  *  Available controls.
@@ -55,7 +56,7 @@ typedef enum
  *  This should be set when the user begins editing a text field or a text view
  *  and it is automatically set when selecting the previous or the next field.
  */
-@property (nonatomic, strong) UIView *activeField;
+@property (nonatomic, strong) WPEditorField *activeField;
 
 /**
  *  Style of the toolbar.

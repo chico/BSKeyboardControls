@@ -7,7 +7,6 @@
 //
 
 #import "BSKeyboardControls.h"
-#import "WPEditorField.h"
 
 @interface BSKeyboardControls ()
 @property (nonatomic, strong) UIToolbar *toolbar;
