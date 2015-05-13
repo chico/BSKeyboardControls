@@ -49,14 +49,14 @@ typedef enum
  *  All fields will automatically have the input accessory view set to
  *  the instance of the controls.
  */
-@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, strong) NSMutableArray *fields;
 
 /**
  *  The active text field.
  *  This should be set when the user begins editing a text field or a text view
  *  and it is automatically set when selecting the previous or the next field.
  */
-@property (nonatomic, strong) WPEditorField *activeField;
+@property (nonatomic, strong) id activeField;
 
 /**
  *  Style of the toolbar.

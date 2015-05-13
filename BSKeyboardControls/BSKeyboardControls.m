@@ -38,7 +38,7 @@
     return [self initWithFields:nil];
 }
 
-- (id)initWithFields:(NSArray *)fields
+- (id)initWithFields:(NSMutableArray *)fields
 {
     if (self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)])
     {
@@ -103,7 +103,11 @@
 - (void)setActiveField:(id)activeField
 {
     _activeField = activeField;
-    [activeField focus];
+    if ([activeField isKindOfClass:[WPEditorField class]]) {
+        [activeField focus];
+    }else{
+        [activeField becomeFirstResponder];
+    }
      [self updatePrevoidNextEnabledStates];
 //    if (activeField != _activeField)
 //    {
@@ -124,13 +128,13 @@
 //    }
 }
 
-- (void)setFields:(NSArray *)fields
+- (void)setFields:(NSMutableArray *)fields
 {
     if (fields != _fields)
     {
-        for (UIView *field in fields)
-        {
-            [(WPEditorField *)field setInputAccessoryView:self];
+//        for (UIView *field in fields)
+//        {
+//            [(WPEditorField *)field setInputAccessoryView:self];
 //            if ([field isKindOfClass:[UITextField class]])
 //            {
 //                [(UITextField *)field setInputAccessoryView:self];
@@ -139,7 +143,7 @@
 //            {
 //                [(UITextView *)field setInputAccessoryView:self];
 //            }
-        }
+//        }
         
         _fields = fields;
     }
