@@ -102,12 +102,17 @@
 
 - (void)setActiveField:(id)activeField
 {
-    _activeField = activeField;
-    if ([activeField isKindOfClass:[WPEditorField class]]) {
-        [activeField focus];
-    }else{
-        [activeField becomeFirstResponder];
+    if (_activeField != activeField)
+    {
+        if ([activeField isKindOfClass:[WPEditorField class]]) {
+            [activeField focus];
+        }else{
+            [activeField becomeFirstResponder];
+        }
     }
+    
+    _activeField = activeField;
+
      [self updatePrevoidNextEnabledStates];
 //    if (activeField != _activeField)
 //    {
