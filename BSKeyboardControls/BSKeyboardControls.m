@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIBarButtonItem *leftArrowButton;
 @property (nonatomic, strong) UIBarButtonItem *rightArrowButton;
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
+@property (nonatomic, strong) UIBarButtonItem *deleteButton;
 @property (nonatomic, strong) UIBarButtonItem *segmentedControlItem;
 @end
 
@@ -66,12 +67,17 @@
             [self setSegmentedControlItem:[[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl]];
         }
         
-        [self setDoneButton:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Done", @"BSKeyboardControls", @"Done button title.")
+        [self setDeleteButton:[[UIBarButtonItem alloc] initWithTitle:@"Delete"
+                                                               style:UIBarButtonItemStyleDone
+                                                              target:self
+                                                              action:@selector(deleteButtonPressed:)]];
+        
+        [self setDoneButton:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Save", @"BSKeyboardControls", @"Done button title.")
                                                              style:UIBarButtonItemStyleDone
                                                             target:self
                                                             action:@selector(doneButtonPressed:)]];
         
-        [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDone)];
+        [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDelete | BSKeyboardControlDone )];
         
         [self setFields:fields];
     }
@@ -95,6 +101,7 @@
     [self setSegmentedControl:nil];
     [self setSegmentedControlItem:nil];
     [self setDoneButton:nil];
+    [self setDeleteButton:nil];
 }
 
 #pragma mark -
@@ -224,6 +231,26 @@
     }
 }
 
+- (void)setDeleteTitle:(NSString *)deleteTitle
+{
+    if (![deleteTitle isEqualToString:_deleteTitle])
+    {
+        [self.deleteButton setTitle:deleteTitle];
+        
+        _deleteTitle = deleteTitle;
+    }
+}
+
+- (void)setDeleteTintColor:(UIColor *)deleteTintColor
+{
+    if (deleteTintColor != _deleteTintColor)
+    {
+        [self.deleteButton setTintColor:deleteTintColor];
+        
+        _deleteTintColor = deleteTintColor;
+    }
+}
+
 - (void)setVisibleControls:(BSKeyboardControl)visibleControls
 {
     if (visibleControls != _visibleControls)
@@ -259,6 +286,14 @@
     if ([self.delegate respondsToSelector:@selector(keyboardControlsDonePressed:)])
     {
         [self.delegate keyboardControlsDonePressed:self];
+    }
+}
+
+- (void)deleteButtonPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(keyboardControlsDonePressed:)])
+    {
+        [self.delegate keyboardControlsDeletePressed:self];
     }
 }
 
@@ -329,11 +364,25 @@
         }
     }
     
+    CGFloat space = 190;
+    
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        space = 210;
+    
+    if (self.visibleControls & BSKeyboardControlDelete)
+    {
+        UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [fixedItem setWidth: [[UIScreen mainScreen] bounds].size.width - space];
+        [items addObject:fixedItem];
+        [items addObject:self.deleteButton];
+    }
+    
     if (self.visibleControls & BSKeyboardControlDone)
     {
         [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
         [items addObject:self.doneButton];
     }
+    
     
     return items;
 }

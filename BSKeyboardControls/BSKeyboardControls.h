@@ -15,7 +15,8 @@
 typedef enum
 {
     BSKeyboardControlPreviousNext = 1 << 0,
-    BSKeyboardControlDone = 1 << 1
+    BSKeyboardControlDone = 1 << 1,
+    BSKeyboardControlDelete = 1 << 2
 } BSKeyboardControl;
 
 /**
@@ -89,9 +90,19 @@ typedef enum
 @property (nonatomic, strong) NSString *doneTitle;
 
 /**
+ *  Title of the delete button. If this is not set, a default localized title will be used.
+ */
+@property (nonatomic, strong) NSString *deleteTitle;
+
+/**
  *  Tint color of the done button.
  */
 @property (nonatomic, strong) UIColor *doneTintColor;
+
+/**
+ *  Tint color of the delete button.
+ */
+@property (nonatomic, strong) UIColor *deleteTintColor;
 
 /**
  *  Initialize keyboard controls.
@@ -118,4 +129,7 @@ typedef enum
  *  @param keyboardControls The instance of keyboard controls.
  */
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls;
+
+- (void)keyboardControlsDeletePressed:(BSKeyboardControls *)keyboardControls;
+
 @end
