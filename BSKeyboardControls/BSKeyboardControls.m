@@ -364,10 +364,10 @@
         }
     }
     
-    CGFloat space = 190;
+    CGFloat space = 210;
     
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        space = 210;
+        space = 220;
     
     if (self.visibleControls & BSKeyboardControlDelete)
     {
@@ -379,7 +379,9 @@
     
     if (self.visibleControls & BSKeyboardControlDone)
     {
-        [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
+        UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [fixedItem setWidth: 18];
+        [items addObject:fixedItem];
         [items addObject:self.doneButton];
     }
     
