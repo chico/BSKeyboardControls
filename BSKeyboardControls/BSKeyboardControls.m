@@ -1,3 +1,4 @@
+
 //
 //  BSKeyboardControls.m
 //  Example
@@ -109,17 +110,14 @@
 
 - (void)setActiveField:(id)activeField
 {
-    if (_activeField != activeField)
-    {
+    _activeField = activeField;
+    
         if ([activeField isKindOfClass:[WPEditorField class]]) {
             [activeField focus];
         }else{
             [activeField becomeFirstResponder];
         }
-    }
-    
-    _activeField = activeField;
-
+  
      [self updatePrevoidNextEnabledStates];
 //    if (activeField != _activeField)
 //    {
