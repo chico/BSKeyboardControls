@@ -132,4 +132,6 @@ typedef enum
 
 - (void)keyboardControlsDeletePressed:(BSKeyboardControls *)keyboardControls;
 
+- (void)keyboardControlsNextPressed;
+
 @end

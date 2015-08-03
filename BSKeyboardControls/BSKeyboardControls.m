@@ -334,7 +334,8 @@
         index += 1;
         id field = [self.fields objectAtIndex:index];
         [self setActiveField:field];
-        
+        [self.delegate keyboardControlsNextPressed];
+
         if ([self.delegate respondsToSelector:@selector(keyboardControls:selectedField:inDirection:)])
         {
             [self.delegate keyboardControls:self selectedField:field inDirection:BSKeyboardControlsDirectionNext];
