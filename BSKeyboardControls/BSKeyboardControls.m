@@ -47,42 +47,42 @@
         [self setToolbar:[[UIToolbar alloc] initWithFrame:self.frame]];
         [self.toolbar setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth)];
         [self addSubview:self.toolbar];
-        
+
         if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
             [self setLeftArrowButton:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:self action:@selector(selectPreviousField)]];
             [self.leftArrowButton setEnabled:NO];
             [self.rightArrowButton setEnabled:NO];
             [self setRightArrowButton:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:self action:@selector(selectNextField)]];
-            
+
         } else {
             [self setBarStyle:UIBarStyleBlackTranslucent];
-            
+
             [self setSegmentedControl:[[UISegmentedControl alloc] initWithItems:@[ NSLocalizedStringFromTable(@"Previous", @"BSKeyboardControls", @"Previous button title."),
                                                                                    NSLocalizedStringFromTable(@"Next", @"BSKeyboardControls", @"Next button title.") ]]];
             [self.segmentedControl addTarget:self action:@selector(segmentedControlValueChanged:) forControlEvents:UIControlEventValueChanged];
-            
+
             [self.segmentedControl setMomentary:YES];
             [self.segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
             [self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionPrevious];
             [self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionNext];
             [self setSegmentedControlItem:[[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl]];
         }
-        
+
         [self setDeleteButton:[[UIBarButtonItem alloc] initWithTitle:@"Delete"
                                                                style:UIBarButtonItemStyleDone
                                                               target:self
                                                               action:@selector(deleteButtonPressed:)]];
-        
+
         [self setDoneButton:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Save", @"BSKeyboardControls", @"Done button title.")
                                                              style:UIBarButtonItemStyleDone
                                                             target:self
                                                             action:@selector(doneButtonPressed:)]];
-        
+
         [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDelete | BSKeyboardControlDone )];
-        
+
         [self setFields:fields];
     }
-    
+
     return self;
 }
 
@@ -111,27 +111,27 @@
 - (void)setActiveField:(id)activeField
 {
     _activeField = activeField;
-    
+
         if ([activeField isKindOfClass:[WPEditorField class]]) {
             [activeField focus];
         }else{
             [activeField becomeFirstResponder];
         }
-  
+
      [self updatePrevoidNextEnabledStates];
 //    if (activeField != _activeField)
 //    {
 //        if (!activeField || [self.fields containsObject:activeField])
 //        {
 //            _activeField = activeField;
-//        
+//
 //            if (activeField)
 //            {
 //                if (![activeField isFirstResponder])
 //                {
 //                    [activeField becomeFirstResponder];
 //                }
-//            
+//
 //                [self updatePrevoidNextEnabledStates];
 //            }
 //        }
@@ -154,7 +154,7 @@
 //                [(UITextView *)field setInputAccessoryView:self];
 //            }
 //        }
-        
+
         _fields = fields;
     }
 }
@@ -164,7 +164,7 @@
     if (barStyle != _barStyle)
     {
         [self.toolbar setBarStyle:barStyle];
-        
+
         _barStyle = barStyle;
     }
 }
@@ -174,7 +174,7 @@
     if (barTintColor != _barTintColor)
     {
         [self.toolbar setTintColor:barTintColor];
-        
+
         _barTintColor = barTintColor;
     }
 }
@@ -184,7 +184,7 @@
     if (segmentedControlTintControl != _segmentedControlTintControl)
     {
         [self.segmentedControl setTintColor:segmentedControlTintControl];
-        
+
         _segmentedControlTintControl = segmentedControlTintControl;
     }
 }
@@ -194,7 +194,7 @@
     if (![previousTitle isEqualToString:_previousTitle])
     {
         [self.segmentedControl setTitle:previousTitle forSegmentAtIndex:BSKeyboardControlsDirectionPrevious];
-        
+
         _previousTitle = previousTitle;
     }
 }
@@ -204,7 +204,7 @@
     if (![nextTitle isEqualToString:_nextTitle])
     {
         [self.segmentedControl setTitle:nextTitle forSegmentAtIndex:BSKeyboardControlsDirectionNext];
-        
+
         _nextTitle = nextTitle;
     }
 }
@@ -214,7 +214,7 @@
     if (![doneTitle isEqualToString:_doneTitle])
     {
         [self.doneButton setTitle:doneTitle];
-        
+
         _doneTitle = doneTitle;
     }
 }
@@ -224,7 +224,7 @@
     if (doneTintColor != _doneTintColor)
     {
         [self.doneButton setTintColor:doneTintColor];
-        
+
         _doneTintColor = doneTintColor;
     }
 }
@@ -234,7 +234,7 @@
     if (![deleteTitle isEqualToString:_deleteTitle])
     {
         [self.deleteButton setTitle:deleteTitle];
-        
+
         _deleteTitle = deleteTitle;
     }
 }
@@ -244,7 +244,7 @@
     if (deleteTintColor != _deleteTintColor)
     {
         [self.deleteButton setTintColor:deleteTintColor];
-        
+
         _deleteTintColor = deleteTintColor;
     }
 }
@@ -265,7 +265,7 @@
 - (void)segmentedControlValueChanged:(id)sender
 {
 	[[UIDevice currentDevice] playInputClick];
-	
+
     switch (self.segmentedControl.selectedSegmentIndex)
     {
         case BSKeyboardControlsDirectionPrevious:
@@ -318,7 +318,7 @@
         index -= 1;
         id field = [self.fields objectAtIndex:index];
         [self setActiveField:field];
-        
+
         if ([self.delegate respondsToSelector:@selector(keyboardControls:selectedField:inDirection:)])
         {
             [self.delegate keyboardControls:self selectedField:field inDirection:BSKeyboardControlsDirectionPrevious];
@@ -346,7 +346,7 @@
 - (NSArray *)toolbarItems
 {
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:3];
-    
+
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
         if (self.visibleControls & BSKeyboardControlPreviousNext)
         {
@@ -362,12 +362,18 @@
             [items addObject:self.segmentedControlItem];
         }
     }
-    
+
     CGFloat space = 210;
-    
+
+    // TODO A bit hacky but need more space for buttons in Portuguese because of longer text
+    NSString* language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    if ([language isEqualToString:@"pt"] || [language isEqualToString:@"pt-PT"] || [language isEqualToString:@"pt-BR"]) {
+        space = space + 18;
+    }
+
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        space = 220;
-    
+        space = space + 10;
+
     if (self.visibleControls & BSKeyboardControlDelete)
     {
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -375,7 +381,7 @@
         [items addObject:fixedItem];
         [items addObject:self.deleteButton];
     }
-    
+
     if (self.visibleControls & BSKeyboardControlDone)
     {
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -383,8 +389,8 @@
         [items addObject:fixedItem];
         [items addObject:self.doneButton];
     }
-    
-    
+
+
     return items;
 }
 
