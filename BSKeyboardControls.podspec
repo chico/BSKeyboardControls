@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BSKeyboardControls"
-  s.version      = "2.2.7"
+  s.version      = "2.2.8"
   s.summary      = "Put controls above the keyboard on your iPhone or iPad app."
   s.homepage     = "https://github.com/simonbs/BSKeyboardControls"
   s.license      = 'MIT'
